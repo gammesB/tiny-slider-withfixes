@@ -39,7 +39,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 
 ## What's new
 - https://github.com/ganlanyuan/tiny-slider/pull/604 implemented
-- implemented solution from https://github.com/KePitt2/tiny-slider for a possible error that can occur in the getClientWidth fucntion.
+- implemented solution from https://github.com/ganlanyuan/tiny-slider/pull/614 for a possible error that can occur in the getClientWidth fucntion.
 - https://github.com/ganlanyuan/tiny-slider/pull/592 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/589 implemented
 - added timeOutBeforeResumeAutoplay to make the delay a bit longer if a person chooses a specific slide
@@ -68,7 +68,8 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 *[top↑](#tiny-slider-2)*
 
 ## Not implemented due to already being implemented or another reason
-https://github.com/ganlanyuan/tiny-slider/pull/597 --if this gets implemented maybe more events would be better like when the next slides starts.
+- https://github.com/ganlanyuan/tiny-slider/pull/621 --no description and don't see why this should be added
+- https://github.com/ganlanyuan/tiny-slider/pull/597 --if this gets implemented maybe more events would be better like when the next slides starts.
 - https://github.com/ganlanyuan/tiny-slider/pull/572 --issue seems to only come up when it can't find something with the given id.
 https://github.com/ganlanyuan/tiny-slider/pull/472 --stop auto play while touching is already implemented
 
