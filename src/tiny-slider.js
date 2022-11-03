@@ -721,8 +721,12 @@ export var tns = function (options) {
     // before clone slides
     forEach(slideItems, function (item, i) {
       addClass(item, 'tns-item');
+      const { display } = win.getComputedStyle(item);
       if (!item.id) { item.id = slideId + '-item' + i; }
       if (!carousel && animateNormal) { addClass(item, animateNormal); }
+      if (!display.includes('inline')) {
+        item.style.display = `inline-${display}`
+      }
       setAttrs(item, {
         'aria-hidden': 'true',
         'tabindex': '-1'

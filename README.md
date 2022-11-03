@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/550 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/419 implemented
 - removed ie8 support file(can be enabled again in gulpfile)
 - fixed gulp for building the files(added dependencies and changed deprecated functions)
@@ -58,7 +59,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 *[top↑](#tiny-slider-2)*
 
 ## Not implemented due to already being implemented
-
+https://github.com/ganlanyuan/tiny-slider/pull/472 --stop auto play while touching is already implemented
 
 ## Features
 <table class="table">
