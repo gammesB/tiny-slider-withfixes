@@ -519,6 +519,7 @@ var tns = function (options) {
     navAsThumbnails: false,
     arrowKeys: false,
     speed: 300,
+    timeOutBeforeResumeAutoplay: 700,
     autoplay: false,
     autoplayPosition: 'top',
     autoplayTimeout: 5000,
@@ -539,7 +540,7 @@ var tns = function (options) {
     lazyload: false,
     lazyloadSelector: '.tns-lazy-img',
     loadPrevNext: 0,
-    errorCorrectionDifference: 2.5,
+    errorCorrectionDeadzone: 2.5,
     touch: true,
     mouseDrag: false,
     swipeAngle: 15,
@@ -713,6 +714,7 @@ var tns = function (options) {
     viewportMax = options.viewportMax || options.fixedWidthViewportWidth,
     arrowKeys = getOption('arrowKeys'),
     speed = getOption('speed'),
+    timeOutBeforeResumeAutoplay = getOption('timeOutBeforeResumeAutoplay'),
     rewind = options.rewind,
     loop = rewind ? false : options.loop,
     autoHeight = getOption('autoHeight'),
@@ -730,7 +732,7 @@ var tns = function (options) {
     lazyload = options.lazyload,
     lazyloadSelector = options.lazyloadSelector,
     loadPrevNext = getOption('loadPrevNext'),
-    errorCorrectionDifference = getOption('errorCorrectionDifference'),
+    errorCorrectionDeadzone = getOption('errorCorrectionDeadzone'),
     slidePositions, // collection of slide positions
     slideItemsOut = [],
     cloneCount = loop ? getCloneCountForLoop() : 0,
@@ -805,7 +807,7 @@ var tns = function (options) {
     }, dragEvents = {
       'mousedown': onPanStart,
       'mousemove': onPanMove,
-      'mouseup': onPanEnd,
+      'mouseup': onPanEndMouseUp,
       'mouseleave': onPanEnd
     },
     hasControls = hasOption('controls'),
@@ -860,7 +862,7 @@ var tns = function (options) {
       autoplayHtmlStrings = ['<span class=\'tns-visually-hidden\'>', ' animation</span>'],
       autoplayTimer,
       animating = false,
-      autoplayUserPaused,
+      autoplayUserPaused = false,
       autoplayVisibilityPaused;
   }
 
@@ -2654,8 +2656,8 @@ var tns = function (options) {
       events.emit('transitionStart', info());
       if (autoHeight) { doAutoHeight(); }
 
-      // pause autoplay when click or keydown from user
-      if (animating && e && ['click', 'keydown'].indexOf(e.type) >= 0) { stopAutoplay(); }
+      // pause autoplay when click or keydown from user, only enabled if the hoverPause is false
+      if (animating && e && ['click', 'keydown'].indexOf(e.type) >= 0 && !autoplayHoverPause) { stopAutoplay(); }
 
       running = true;
       transformCore();
@@ -2845,19 +2847,43 @@ var tns = function (options) {
         targetIndexBase = fixedWidth || autoWidth ? navIndex * slideCount / pages : navIndex * items,
         targetIndex = navAsThumbnails ? navIndex : Math.min(Math.ceil(targetIndexBase), slideCount - 1);
       goTo(targetIndex, e);
-
+      console.log(navCurrentIndex, navIndex);
       if (navCurrentIndex === navIndex) {
-        if (animating) { stopAutoplay(); }
+        if (animating) { stopAutoplayTimer(); setTimeout(setAutoplayTimer, timeOutBeforeResumeAutoplay); }
         navClicked = -1; // reset navClicked
+      }
+    }
+  }
+
+  // on key nav
+  function onNavKeydown(e) {
+    e = getEvent(e);
+    var curElement = doc.activeElement;
+    if (!hasAttr(curElement, 'data-nav')) { return; }
+
+    // var code = e.keyCode,
+    var keyIndex = [KEYS.LEFT, KEYS.RIGHT, KEYS.ENTER, KEYS.SPACE].indexOf(e.keyCode),
+      navIndex = Number(getAttr(curElement, 'data-nav'));
+
+    if (keyIndex >= 0) {
+      if (keyIndex === 0) {
+        if (navIndex > 0) { setFocus(navItems[navIndex - 1]); }
+      } else if (keyIndex === 1) {
+        if (navIndex < pages - 1) { setFocus(navItems[navIndex + 1]); }
+      } else {
+        navClicked = navIndex;
+        goTo(navIndex, e);
       }
     }
   }
 
   // autoplay functions
   function setAutoplayTimer() {
-    autoplayTimer = setInterval(function () {
-      onControlsClick(null, autoplayDirection);
-    }, autoplayTimeout);
+    if (animating == false) {
+      autoplayTimer = setInterval(function () {
+        onControlsClick(null, autoplayDirection);
+      }, autoplayTimeout);
+    }
     animating = true;
   }
 
@@ -2884,24 +2910,24 @@ var tns = function (options) {
   // programaitcally play/pause the slider
   function play() {
     if (autoplay && !animating) {
-      startAutoplay();
       autoplayUserPaused = false;
+      startAutoplay();
     }
   }
   function pause() {
     if (animating) {
-      stopAutoplay();
       autoplayUserPaused = true;
+      stopAutoplay();
     }
   }
 
   function toggleAutoplay() {
     if (animating) {
-      stopAutoplay();
       autoplayUserPaused = true;
+      stopAutoplay();
     } else {
-      startAutoplay();
       autoplayUserPaused = false;
+      startAutoplay();
     }
   }
 
@@ -2924,7 +2950,7 @@ var tns = function (options) {
   }
 
   function mouseoutRestart() {
-    if (!animating) {
+    if (!animating && autoplayUserPaused == false) {
       setAutoplayTimer();
     }
   }
@@ -2958,27 +2984,6 @@ var tns = function (options) {
     el.focus();
   }
 
-  // on key nav
-  function onNavKeydown(e) {
-    e = getEvent(e);
-    var curElement = doc.activeElement;
-    if (!hasAttr(curElement, 'data-nav')) { return; }
-
-    // var code = e.keyCode,
-    var keyIndex = [KEYS.LEFT, KEYS.RIGHT, KEYS.ENTER, KEYS.SPACE].indexOf(e.keyCode),
-      navIndex = Number(getAttr(curElement, 'data-nav'));
-
-    if (keyIndex >= 0) {
-      if (keyIndex === 0) {
-        if (navIndex > 0) { setFocus(navItems[navIndex - 1]); }
-      } else if (keyIndex === 1) {
-        if (navIndex < pages - 1) { setFocus(navItems[navIndex + 1]); }
-      } else {
-        navClicked = navIndex;
-        goTo(navIndex, e);
-      }
-    }
-  }
 
   function getEvent(e) {
     e = e || win.event;
@@ -3077,8 +3082,11 @@ var tns = function (options) {
       container.style[transformAttr] = transformPrefix + x + transformPostfix;
     }
   }
-
-  function onPanEnd(e) {
+  //this has been adeed as drag also counts as a panend, it can sometimes trigger a animation
+  function onPanEndMouseUp(e) {
+    onPanEnd(e, true);
+  }
+  function onPanEnd(e, mouseUp = false) {
     if (panStart) {
       if (rafIndex) {
         caf(rafIndex);
@@ -3091,8 +3099,7 @@ var tns = function (options) {
       lastPosition.x = $.clientX;
       lastPosition.y = $.clientY;
       var dist = getDist(lastPosition, initPosition);
-
-      if (Math.abs(dist) > errorCorrectionDifference) {
+      if (Math.abs(dist) > errorCorrectionDeadzone) {
         // drag vs click
         if (!isTouchEvent(e)) {
           // prevent "click"
@@ -3141,7 +3148,7 @@ var tns = function (options) {
     // reset
     if (options.preventScrollOnTouch === 'auto') { preventScroll = false; }
     if (swipeAngle) { moveDirectionExpected = '?'; }
-    if (autoplay && !animating) { setAutoplayTimer(); }
+    if (!mouseUp && autoplay && !animating && autoplayUserPaused == false) { setAutoplayTimer(); }
   }
 
   // === RESIZE FUNCTIONS === //

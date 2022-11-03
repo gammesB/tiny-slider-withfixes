@@ -38,6 +38,10 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- added timeOutBeforeResumeAutoplay to make the delay a bit longer if a person chooses a specific slide
+- https://github.com/ganlanyuan/tiny-slider/pull/564 implemented, with option to change the deadzone.
+- changed so that autoplayUserPaused gets checked more so it doesn't autoplay when it's on pause.
+- removed unnecessary autoplayHoverPaused as animating can be used
 - https://github.com/ganlanyuan/tiny-slider/pull/561 implemented with slight change to not change a global variable.
 - https://github.com/ganlanyuan/tiny-slider/pull/550 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/419 implemented
@@ -59,7 +63,8 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 
 *[top↑](#tiny-slider-2)*
 
-## Not implemented due to already being implemented
+## Not implemented due to already being implemented or another reason
+- https://github.com/ganlanyuan/tiny-slider/pull/572 --issue seems to only come up when it can't find something with the given id.
 https://github.com/ganlanyuan/tiny-slider/pull/472 --stop auto play while touching is already implemented
 
 ## Features
@@ -330,7 +335,8 @@ Option C: Import `tns` directly start from v2.8.2
 | `onInit` | Function \| false | Default: false. <br> Callback to be run on initialization. |
 | `useLocalStorage` | Boolean | Default: true. <br> Save browser capability variables to [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and without detecting them everytime the slider runs if set to `true`. |
 | `nonce`| String / false | Default: false. <br> Optional Nonce attribute for inline style tag to allow slider usage without `unsafe-inline Content Security Policy source. |
-| `errorCorrectionDifference` | Number | Default: 2.5. <br> Error correction as some devices it looks like they are draging when they are clicking a slide, issue #530.
+| `errorCorrectionDeadzone` | Number | Default: 2.5. <br> On some devices it drags the slide if a user clicks, this will set a small deadzone which will not make the slide get dragged, see issue #530.|
+| `timeOutBeforeResumeAutoplay` | Number | Default: 700. <br> When on autoPlay is on and a user clicks a navcontainer option there wil be a delay before it will start autoplaying again.|
 
 NOTE:
 Prior to v2.0.2, options "container", "controlsContainer", "navContainer" and "autoplayButton" still need to be DOM elements.
