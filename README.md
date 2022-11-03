@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/604 implemented
 - implemented solution from https://github.com/KePitt2/tiny-slider for a possible error that can occur in the getClientWidth fucntion.
 - https://github.com/ganlanyuan/tiny-slider/pull/592 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/589 implemented
@@ -344,6 +345,7 @@ Option C: Import `tns` directly start from v2.8.2
 | `nonce`| String / false | Default: false. <br> Optional Nonce attribute for inline style tag to allow slider usage without `unsafe-inline Content Security Policy source. |
 | `errorCorrectionDeadzone` | Number | Default: 2.5. <br> On some devices it drags the slide if a user clicks, this will set a small deadzone which will not make the slide get dragged, see issue #530.|
 | `timeOutBeforeResumeAutoplay` | Number | Default: 700. <br> When on autoPlay is on and a user clicks a navcontainer option there wil be a delay before it will start autoplaying again.|
+| `friction` | Boolean | Default: true. <br> Adds friction to non-looping slider when dragging all the way to the left/right (horizontal sliders only). |
 
 NOTE:
 Prior to v2.0.2, options "container", "controlsContainer", "navContainer" and "autoplayButton" still need to be DOM elements.
