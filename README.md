@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/589 implemented
 - added timeOutBeforeResumeAutoplay to make the delay a bit longer if a person chooses a specific slide
 - https://github.com/ganlanyuan/tiny-slider/pull/564 implemented, with option to change the deadzone.
 - changed so that autoplayUserPaused gets checked more so it doesn't autoplay when it's on pause.

@@ -3010,6 +3010,11 @@ var tns = function (options) {
       if (preventActionWhenRunning) { return; } else { onTransitionEnd(); }
     }
 
+    //Added so that right click doesn't drag the slides
+    if ("which" in e && e.which == 3 || "button" in e && e.button == 2) { //which is Gecko (Firefox), WebKit (Safari/Chrome) & Opera and button is IE, Opera
+      return;
+    }
+
     if (autoplay && animating) { stopAutoplayTimer(); }
 
     panStart = true;
