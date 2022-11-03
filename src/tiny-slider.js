@@ -100,6 +100,7 @@ export var tns = function (options) {
     lazyload: false,
     lazyloadSelector: '.tns-lazy-img',
     loadPrevNext: 0,
+    errorCorrectionDifference: 2.5,
     touch: true,
     mouseDrag: false,
     swipeAngle: 15,
@@ -290,6 +291,7 @@ export var tns = function (options) {
     lazyload = options.lazyload,
     lazyloadSelector = options.lazyloadSelector,
     loadPrevNext = getOption('loadPrevNext'),
+    errorCorrectionDifference = getOption('errorCorrectionDifference'),
     slidePositions, // collection of slide positions
     slideItemsOut = [],
     cloneCount = loop ? getCloneCountForLoop() : 0,
@@ -2651,7 +2653,7 @@ export var tns = function (options) {
       lastPosition.y = $.clientY;
       var dist = getDist(lastPosition, initPosition);
 
-      if (Math.abs(dist)) {
+      if (Math.abs(dist) > errorCorrectionDifference) {
         // drag vs click
         if (!isTouchEvent(e)) {
           // prevent "click"
