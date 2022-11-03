@@ -1160,8 +1160,12 @@ var tns = function (options) {
     // before clone slides
     forEach(slideItems, function (item, i) {
       addClass(item, 'tns-item');
+      const { display } = win.getComputedStyle(item);
       if (!item.id) { item.id = slideId + '-item' + i; }
       if (!carousel && animateNormal) { addClass(item, animateNormal); }
+      if (!display.includes('inline')) {
+        item.style.display = `inline-${display}`;
+      }
       setAttrs(item, {
         'aria-hidden': 'true',
         'tabindex': '-1'
@@ -2197,8 +2201,9 @@ var tns = function (options) {
         }
 
       } else {
+        let Ceilitems = Math.ceil(getOption('items'));
         if (center || edgePadding) {
-          var a = items - 1;
+          var a = Ceilitems - 1;
           if (center) {
             start -= a / 2;
             end = index + a / 2;
@@ -2207,7 +2212,7 @@ var tns = function (options) {
           }
 
           if (edgePadding) {
-            var b = edgePadding * items / viewport;
+            var b = edgePadding * Ceilitems / viewport;
             start -= b;
             end += b;
           }
@@ -2215,7 +2220,7 @@ var tns = function (options) {
           start = Math.floor(start);
           end = Math.ceil(end);
         } else {
-          end = start + items - 1;
+          end = start + Ceilitems - 1;
         }
       }
 

@@ -1762,8 +1762,9 @@ export var tns = function (options) {
         }
 
       } else {
+        let Ceilitems = Math.ceil(getOption('items'));
         if (center || edgePadding) {
-          var a = items - 1;
+          var a = Ceilitems - 1;
           if (center) {
             start -= a / 2;
             end = index + a / 2;
@@ -1772,7 +1773,7 @@ export var tns = function (options) {
           }
 
           if (edgePadding) {
-            var b = edgePadding * items / viewport;
+            var b = edgePadding * Ceilitems / viewport;
             start -= b;
             end += b;
           }
@@ -1780,7 +1781,7 @@ export var tns = function (options) {
           start = Math.floor(start);
           end = Math.ceil(end);
         } else {
-          end = start + items - 1;
+          end = start + Ceilitems - 1;
         }
       }
 

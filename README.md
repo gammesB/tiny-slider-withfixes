@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/561 implemented with slight change to not change a global variable.
 - https://github.com/ganlanyuan/tiny-slider/pull/550 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/419 implemented
 - removed ie8 support file(can be enabled again in gulpfile)
