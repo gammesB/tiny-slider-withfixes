@@ -99,6 +99,7 @@ export var tns = function (options) {
     responsive: false,
     lazyload: false,
     lazyloadSelector: '.tns-lazy-img',
+    loadPrevNext: 0,
     touch: true,
     mouseDrag: false,
     swipeAngle: 15,
@@ -288,6 +289,7 @@ export var tns = function (options) {
     sheet = createStyleSheet(null, getOption('nonce')),
     lazyload = options.lazyload,
     lazyloadSelector = options.lazyloadSelector,
+    loadPrevNext = getOption('loadPrevNext'),
     slidePositions, // collection of slide positions
     slideItemsOut = [],
     cloneCount = loop ? getCloneCountForLoop() : 0,
@@ -1791,7 +1793,7 @@ export var tns = function (options) {
       var arg = getVisibleSlideRange();
       arg.push(lazyloadSelector);
 
-      getImageArray.apply(null, arg).forEach(function (img) {
+      getImageArrayForLazy.apply(null, arg).forEach(function (img) {
         if (!hasClass(img, imgCompleteClass)) {
           // stop propagation transitionend event to container
           var eve = {};
@@ -1845,6 +1847,25 @@ export var tns = function (options) {
       forEach(slideItems[start].querySelectorAll(imgSelector), function (img) { imgs.push(img); });
       start++;
     }
+
+    return imgs;
+  }
+
+  function getImageArrayForLazy(start, end) {
+    if ((start - loadPrevNext) >= 0) {
+      start = start - loadPrevNext;
+    }
+    else {//the else have been added so if you have loadPrevNext on 5 for example it won't only set start on 0 if start is 5 but also if it's lower.
+      start = 0;
+    }
+
+    if ((end + loadPrevNext) < slideItems.length) {
+      end = end + loadPrevNext;
+    } else {
+      end = slideItems.length - 1;
+    }
+
+    var imgs = getImageArray(start, end);
 
     return imgs;
   }
