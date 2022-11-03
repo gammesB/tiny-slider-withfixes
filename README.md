@@ -6,6 +6,12 @@ Tiny slider for all purposes, inspired by [Owl Carousel](https://owlcarousel2.gi
 
 [Demos](http://ganlanyuan.github.io/tiny-slider/demo)
 
+**To start the demo yourself**
+1. do npm i
+2. do npm run serve
+3. go to http://localhost:3000/demo/
+P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
+
 [Test results](http://ganlanyuan.github.io/tiny-slider/test)
 <!-- [Tests for desktop browsers](http://ganlanyuan.github.io/tiny-slider/test/tests.html) (running on Firefox 12+, Chrome 15+, Safari 5.1+, Opera 12.1+, IE9+)
 [Tests for mobile browsers](http://ganlanyuan.github.io/tiny-slider/test/tests-mobile.html)  (running on Android Browser 4.2+)
@@ -32,6 +38,9 @@ Tiny slider for all purposes, inspired by [Owl Carousel](https://owlcarousel2.gi
 + [License](#license)
 
 ## What's new
+- removed ie8 support file(can be enabled again in gulpfile)
+- fixed gulp for building the files(added dependencies and changed deprecated functions)
+- added https://github.com/ganlanyuan/tiny-slider/pull/352
 - Using `%` instead of `px` (No more recalculation of each slide width on window resize)
 - Using CSS Mediaqueries if supported
 - Save browser capability values to [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), so they will not be recheck again until browser get upgraded or user clear the localStorage manually.

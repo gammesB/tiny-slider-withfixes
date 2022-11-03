@@ -1,12 +1,13 @@
 const rollup = require('rollup').rollup;
-const resolve = require('rollup-plugin-node-resolve');
-const babel = require('rollup-plugin-babel');
+const resolve = require('@rollup/plugin-node-resolve');
+const babel = require('@rollup/plugin-babel');
 
 const gulp = require('gulp');
-const packages = require('/www/package.json');
+const packages = require('./package.json');
 const $ = require('gulp-load-plugins')({
   config: packages
 });
+const sass = require('gulp-sass')(require('sass'));
 const browserSync = require('browser-sync').create();
 const nunjucks = require('nunjucks');
 const path = require('path');
@@ -14,40 +15,40 @@ const fs = require('fs');
 
 let sourcemapsDest = 'sourcemaps';
 let libName = 'tiny-slider',
-    testName = 'tests',
-    modulePostfix = '.module',
-    helperIEPostfix = '.helper.ie8',
-    script = libName + '.js',
-    moduleScript = libName + modulePostfix + '.js',
-    helperIEScript = libName + helperIEPostfix + '.js',
-    testScript = testName + '.js',
-    sassFile = libName + '.scss',
-    pathSrc = 'src/',
-    pathDest = 'dist/',
-    pathTest = 'tests/js/',
-    scriptSources = [pathSrc + '**/*.js', '!' + pathSrc + moduleScript, '!' + pathSrc + helperIEScript];
+  testName = 'tests',
+  modulePostfix = '.module',
+  helperIEPostfix = '.helper.ie8',
+  script = libName + '.js',
+  moduleScript = libName + modulePostfix + '.js',
+  helperIEScript = libName + helperIEPostfix + '.js',
+  testScript = testName + '.js',
+  sassFile = libName + '.scss',
+  pathSrc = 'src/',
+  pathDest = 'dist/',
+  pathTest = 'tests/js/',
+  scriptSources = [pathSrc + '**/*.js', '!' + pathSrc + moduleScript, '!' + pathSrc + helperIEScript];
 
-function errorlog (error) {  
-  console.error.bind(error);  
-  this.emit('end');  
-}  
+function errorlog(error) {
+  console.error.bind(error);
+  this.emit('end');
+}
 
-function readfiles (dir, arr) {
-  fs.readdirSync(dir).forEach( file => {
+function readfiles(dir, arr) {
+  fs.readdirSync(dir).forEach(file => {
     if (path.extname(file) === '.njk') {
-      arr.push(dir+file);
+      arr.push(dir + file);
     }
   });
 }
 
-gulp.task('njk', function() {
+gulp.task('njk', function () {
   let files = [];
   readfiles('./template/demo/', files);
   readfiles('./template/test/', files);
 
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     let dest = path.dirname(file).replace('/template', '');
-    
+
     return gulp.src(file)
       .pipe($.plumber())
       .pipe($.nunjucks.compile({}, {
@@ -73,19 +74,19 @@ gulp.task('njk', function() {
 function sassTask(src, dest) {
   return gulp.src(src)
     .pipe($.sourcemaps.init())
-    .pipe($.sass({
-      outputStyle: 'compressed', 
+    .pipe(sass({
+      outputStyle: 'compressed',
       precision: 7
-    }).on('error', $.sass.logError))  
+    }).on('error', sass.logError))
     .pipe($.sourcemaps.write(sourcemapsDest))
     .pipe(gulp.dest(dest))
     .pipe(browserSync.stream());
 }
 
 // SASS Task
-gulp.task('sass', function () {  
-  sassTask(pathSrc + sassFile, pathDest);
-});  
+gulp.task('sass', function () {
+  return sassTask(pathSrc + sassFile, pathDest);
+});
 
 // Script Task
 gulp.task('script', function () {
@@ -120,15 +121,15 @@ gulp.task('helper-ie8', function () {
   });
 });
 
-gulp.task('editPro', ['script'], function() {
+gulp.task('editPro', gulp.series('script', function () {
   return gulp.src(pathDest + libName + '.js')
     .pipe($.change(function (content) {
       return 'var tns = (function (){\n' + content.replace('export { tns }', 'return tns') + '})();';
     }))
     .pipe(gulp.dest(pathDest))
-});
+}));
 
-gulp.task('makeDevCopy', function() {
+gulp.task('makeDevCopy', function () {
   return gulp.src(pathSrc + script)
     // .pipe($.change(function (content) {
     //   return content
@@ -139,16 +140,16 @@ gulp.task('makeDevCopy', function() {
     .pipe(gulp.dest(pathSrc))
 });
 
-gulp.task('min', ['editPro'], function () {
+gulp.task('min', gulp.series('editPro', function () {
   return gulp.src(pathDest + '*.js')
     .pipe($.sourcemaps.init())
     .pipe($.uglify())
     .pipe($.sourcemaps.write('../' + sourcemapsDest))
     .pipe(gulp.dest(pathDest + 'min'))
-})
+}))
 
 // browser-sync
-gulp.task('server', function() {
+gulp.task('server', function () {
   browserSync.init({
     server: {
       baseDir: './'
@@ -190,18 +191,18 @@ gulp.task('server', function() {
   gulp.watch(pathSrc + sassFile, function (e) {
     sassTask(pathSrc + sassFile, pathDest);
   });
-  gulp.watch(pathSrc + script, ['makeDevCopy']);
-  gulp.watch(scriptSources, ['min']);
-  gulp.watch(pathSrc + helperIEScript, ['helper-ie8']);
-  // gulp.watch([pathTest + testScript], ['test']);
+  gulp.watch(pathSrc + script, gulp.series('makeDevCopy'));
+  gulp.watch(scriptSources, gulp.series('min'));
+  gulp.watch(pathSrc + helperIEScript, gulp.series('helper-ie8'));
+  // gulp.watch(pathTest + testScript, gulp.series('test'));
   gulp.watch(['**/*.html', pathTest + '*.js', '!' + pathTest + 'tests-async.js', pathDest + '*.css', pathDest + 'min/*.js']).on('change', browserSync.reload);
 });
 
 // Default Task
-gulp.task('default', [
-  // 'sass',
-  // 'min',
-  // 'helper-ie8',
-  // 'makeDevCopy',
-  'server', 
-]);  
+gulp.task('default', gulp.series(
+  'sass',
+  'min',
+  //'helper-ie8', //I won't support this but if you want enable it here.
+  //'makeDevCopy',
+  //'server',
+));
