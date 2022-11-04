@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/735 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/646 implemented
 - fixed #550, code didn't work on vertical axis. for now have made a fix for vertical. maybe #550 needs to be removed later.
 - https://github.com/ganlanyuan/tiny-slider/pull/633 implemented(in theory num could before become -1)
@@ -71,6 +72,10 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 *[top↑](#tiny-slider-2)*
 
 ## Not implemented due to already being implemented or another reason
+- https://github.com/ganlanyuan/tiny-slider/pull/762 --already implemented in fork(alternative)
+- https://github.com/ganlanyuan/tiny-slider/pull/704 --already implemented in fork
+- https://github.com/ganlanyuan/tiny-slider/pull/668 --getOption is missing so seems unfinished.
+- https://github.com/ganlanyuan/tiny-slider/pull/658 --tested branch but didn't work, putting "textDirection: 'rtl'," on the base example only gave a white slider.
 - https://github.com/ganlanyuan/tiny-slider/pull/638 --centering seems already implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/621 --no description and don't see why this should be added
 - https://github.com/ganlanyuan/tiny-slider/pull/597 --if this gets implemented maybe more events would be better like when the next slides starts.
@@ -78,7 +83,12 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 - https://github.com/ganlanyuan/tiny-slider/pull/472 --stop auto play while touching is already implemented
 
 ## Todo
-https://github.com/ganlanyuan/tiny-slider/pull/596 --directory file was removed on this fork as it was broken. when added again this should be added too.
+- https://github.com/ganlanyuan/tiny-slider/pull/676 --not fully implemented in pr, loop probably doesn't keep it enabled
+- https://github.com/ganlanyuan/tiny-slider/pull/596 --directory file was removed on this fork as it was broken. when added again this should be added too.
+- linked: https://github.com/ganlanyuan/tiny-slider/pull/692/files
+- linked: https://github.com/ganlanyuan/tiny-slider/pull/731
+- linked: new added variables should also be added to dictionary
+- dependencies and dependencies mentioned in readme.md
 
 ## Features
 <table class="table">
@@ -351,6 +361,7 @@ Option C: Import `tns` directly start from v2.8.2
 | `errorCorrectionDeadzone` | Number | Default: 2.5. <br> On some devices it drags the slide if a user clicks, this will set a small deadzone which will not make the slide get dragged, see issue #530.|
 | `timeOutBeforeResumeAutoplay` | Number | Default: 700. <br> When on autoPlay is on and a user clicks a navcontainer option there wil be a delay before it will start autoplaying again.|
 | `friction` | Boolean | Default: true. <br> Adds friction to non-looping slider when dragging all the way to the left/right (horizontal sliders only). |
+| `textDirection`| "ltr" \| "rtl"  | Default: 'ltr'. <br> Determines whether the slider will work from left to right, or right to left. |
 
 NOTE:
 Prior to v2.0.2, options "container", "controlsContainer", "navContainer" and "autoplayButton" still need to be DOM elements.
