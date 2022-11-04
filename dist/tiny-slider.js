@@ -1266,7 +1266,7 @@ var tns = function (options) {
 
       (function stylesApplicationCheck() {
         var left = slideItems[num].getBoundingClientRect().left;
-        var right = slideItems[num - 1].getBoundingClientRect().right;
+        var right = slideItems[(num || 1) - 1].getBoundingClientRect().right;
 
         (Math.abs(left - right) <= 1) ?
           initSliderTransformCore() :
