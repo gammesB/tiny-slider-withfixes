@@ -1179,7 +1179,7 @@ var tns = function (options) {
       const { display } = win.getComputedStyle(item);
       if (!item.id) { item.id = slideId + '-item' + i; }
       if (!carousel && animateNormal) { addClass(item, animateNormal); }
-      if (!display.includes('inline')) {
+      if (!display.includes('inline') && horizontal) {
         item.style.display = `inline-${display}`;
       }
       setAttrs(item, {
