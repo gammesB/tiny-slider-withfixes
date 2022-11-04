@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/646 implemented
 - fixed #550, code didn't work on vertical axis. for now have made a fix for vertical. maybe #550 needs to be removed later.
 - https://github.com/ganlanyuan/tiny-slider/pull/633 implemented(in theory num could before become -1)
 - https://github.com/ganlanyuan/tiny-slider/pull/604 implemented

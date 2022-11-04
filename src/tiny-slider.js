@@ -2130,8 +2130,9 @@ export var tns = function (options) {
         if (center) { val += getCenterGap(); }
       } else {
         var denominator = TRANSFORM ? slideCountNew : items;
+        var maxTransformVal = 100 - getOption('items') * 100 / denominator;
         if (center) { num -= getCenterGap(); }
-        val = - num * 100 / denominator;
+        val = - Math.min(num * 100 / denominator, maxTransformVal);
       }
     } else {
       val = - slidePositions[num];
@@ -2417,7 +2418,6 @@ export var tns = function (options) {
         targetIndexBase = fixedWidth || autoWidth ? navIndex * slideCount / pages : navIndex * items,
         targetIndex = navAsThumbnails ? navIndex : Math.min(Math.ceil(targetIndexBase), slideCount - 1);
       goTo(targetIndex, e);
-      console.log(navCurrentIndex, navIndex)
       if (navCurrentIndex === navIndex) {
         if (animating) { stopAutoplayTimer(); setTimeout(setAutoplayTimer, timeOutBeforeResumeAutoplay) }
         navClicked = -1; // reset navClicked
