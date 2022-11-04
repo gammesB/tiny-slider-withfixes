@@ -88,6 +88,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 - https://github.com/ganlanyuan/tiny-slider/pull/596 --directory file was removed on this fork as it was broken. when added again this should be added too.
 - linked: https://github.com/ganlanyuan/tiny-slider/pull/692/files
 - linked: https://github.com/ganlanyuan/tiny-slider/pull/731
+- linked: https://github.com/ganlanyuan/tiny-slider/pull/800
 - linked: new added variables should also be added to dictionary
 - dependencies and dependencies mentioned in readme.md
 
