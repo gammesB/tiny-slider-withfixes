@@ -21,7 +21,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 [v1](https://github.com/ganlanyuan/tiny-slider/tree/v1),
 [v0](https://github.com/ganlanyuan/tiny-slider/tree/v0)
 
-**Warning**: tiny-slider works with static content and it works in the browser only. If the HTML is loaded dynamically, make sure to call `tns()` after its loading.
+**Warning**: tiny-slider works with static content and it works in the browser only. If the HTML is loaded dynamically, make sure to call `tns()` after it's loading.
 
 ## Contents
 + [What's new](#whats-new)
@@ -38,6 +38,7 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 + [License](#license)
 
 ## What's new
+- https://github.com/ganlanyuan/tiny-slider/pull/774 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/735 implemented
 - https://github.com/ganlanyuan/tiny-slider/pull/646 implemented
 - fixed #550, code didn't work on vertical axis. for now have made a fix for vertical. maybe #550 needs to be removed later.
