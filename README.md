@@ -84,13 +84,14 @@ P.S. if you need IE8 support you can enable it on the bottom of the gulpfile.js
 - https://github.com/ganlanyuan/tiny-slider/pull/472 --stop auto play while touching is already implemented
 
 ## Todo
+- look for good alternatives to gulp as it has not been updated and it has dependencies that have vulnerabilities.
 - https://github.com/ganlanyuan/tiny-slider/pull/676 --not fully implemented in pr, loop probably doesn't keep it enabled
 - https://github.com/ganlanyuan/tiny-slider/pull/596 --directory file was removed on this fork as it was broken. when added again this should be added too.
 - linked: https://github.com/ganlanyuan/tiny-slider/pull/692/files
 - linked: https://github.com/ganlanyuan/tiny-slider/pull/731
 - linked: https://github.com/ganlanyuan/tiny-slider/pull/800
 - linked: new added variables should also be added to dictionary
-- dependencies and dependencies mentioned in readme.md
+- change outdated dependencies and dependencies mentioned in readme.md
 
 ## Features
 <table class="table">
