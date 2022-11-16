@@ -1,3 +1,5 @@
+require('./tiny-slider.scss');
+
 // Object.keys
 if (!Object.keys) {
   Object.keys = function (object) {
